@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    Username{{request.session.username}}
+    Type{{request.session.Type}}
+    {% if request.session.username != '' and request.session.type == 'P'%}
+    <p>Patient Dashboard</p>
+        <a href = "{% url 'registration:create_appointment' %}">Add Appointment</a>
+    <br>
+        <a href = "{% url 'registration:create_patient' %}">Add Payment</a>
+    <br>
+        <a href = "{% url 'registration:edit_profile' %}">Edit Profile</a>
+    <br>
+        <a href = "{% url 'registration:login' %}">LogOut</a>
+    {% elif request.session.username != '' and request.session.type == 'D'%}
+
+    <p>Doctor Dashboard</p>
+      <br>
+     <a href = "{% url 'registration:create_service' %}">Add Service</a>
+      <br>
+    <a href = "{% url 'registration:edit_profile' %}">Edit Profile</a>
+      <br>
+    <a href = "{% url 'registration:login' %}">Log Out</a>
+    {% endif %}
+</body>
+</html>

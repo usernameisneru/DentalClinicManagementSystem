@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <pre>
+            <input type="text" name="username" placeholder="Username">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" value="login">
+        </pre>
+        <p> Register here as </p>
+        <a href = "{% url 'registration:create_patient' %}">Patient</a> || <a href = "{% url 'registration:create_doctor' %}">Doctor</a>
+
+
+    </form>
+</body>
+</html>
