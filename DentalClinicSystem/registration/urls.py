@@ -11,5 +11,6 @@ urlpatterns = [
     path('createService', views.RegistrationService.as_view(), name = 'create_service'),
     path('createAppointment',views.RegistrationAppointment.as_view(), name='create_appointment'),
     path('editProfile',views.EditProfile.as_view(), name='edit_profile'),
+
     ]
 

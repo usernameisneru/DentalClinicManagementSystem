@@ -104,11 +104,24 @@ class EditProfile(View):
     template = "editProfile.html"
 
     def get(self,request):
+
         if request.session['type'] == 'D':
             doctor = Doctor.objects.get(pk=request.session['username'])
             form = DoctorForm(instance=doctor)
         else:
             patient = Patient.objects.get(pk=request.session['username'])
             form = PatientForm(instance=patient)
-
         return render(request, self.template,{'form': form})
+
+    def post(self,request):
+        if request.session['type'] == 'D':
+            doctor = Doctor.objects.get(pk=request.session['username'])
+            form = DoctorForm(request.POST, instance=doctor)
+        else:
+            patient = Patient.objects.get(pk=request.session['username'])
+            form = PatientForm(request.POST, instance=patient)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('registration:index'))
+        return render(request, self.template, {'form': form})
+

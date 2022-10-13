@@ -18,6 +18,8 @@
         <a href = "{% url 'registration:login' %}">LogOut</a>
     {% elif request.session.username != '' and request.session.type == 'D'%}
 
+    </table>
+
     <p>Doctor Dashboard</p>
       <br>
      <a href = "{% url 'registration:create_service' %}">Add Service</a>
@@ -26,5 +28,23 @@
       <br>
     <a href = "{% url 'registration:login' %}">Log Out</a>
     {% endif %}
-</body>
+   <br>
+    <br>
+
+    Record
+    <table border="1" cellspacing="2">
+        <tr>
+             <th>Service Id</th>
+            <th>Service Offered</th>
+            <th>Service Price</th>
+        </tr>
+
+        {% for e in services %}
+            <tr>
+                <td>{{e.ServiceId}}</td>
+                <td>{{e.ServiceOffered}}</td>
+                <td>{{e.ServicePrice}}</td>
+            </tr>
+        {% endfor %}
+ </body>
 </html>

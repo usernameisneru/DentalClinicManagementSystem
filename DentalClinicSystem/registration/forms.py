@@ -11,14 +11,14 @@ class PatientForm(ModelForm):
     Age = forms.CharField(widget=forms.NumberInput)
     Type = 'P'
     Address = forms.CharField(widget=forms.TextInput)
-    ContactNum = forms.CharField(widget=forms.TextInput)
+    ContactNum = forms.CharField(widget=forms.NumberInput)
 
     class Meta:
         model = Patient
         fields = ['username', 'password', 'Name', 'Age', 'Address', 'ContactNum']
 
     def __init__(self,*args,**kwargs):
-        super(PatientForm, self).__init__(*args,*kwargs)
+        super(PatientForm, self).__init__(*args,**kwargs)
         self.instance.Type = self.Type
         self.fields['ContactNum'].required = False
 
@@ -29,7 +29,7 @@ class DoctorForm(ModelForm):
     Name = forms.CharField(widget=forms.TextInput)
     Age = forms.CharField(widget=forms.NumberInput)
     Type = 'D'
-    Years_of_Experience = forms.CharField(widget=forms.NumberInput)
+    Years_of_Experience = forms.IntegerField(widget=forms.NumberInput)
 
     class Meta:
         model = Doctor
