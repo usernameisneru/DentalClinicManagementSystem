@@ -16,6 +16,28 @@
         <a href = "{% url 'registration:edit_profile' %}">Edit Profile</a>
     <br>
         <a href = "{% url 'registration:login' %}">LogOut</a>
+    <br>
+    <br>
+<b>History</b>
+ <table border="1" cellspacing="2">
+        <tr>
+            <th>Doctor Username</th>
+            <th>Reason of Appointment</th>
+            <th>Appointment Date</th>
+            <th>Service Appointed</th>
+        </tr>
+
+        {% for e in appointment %}
+            <tr>
+                <td>{{e.DoctorUsername}}</td>
+                <td>{{e.ReasonOfAppointment}}</td>
+                <td>{{e.AppointmentDate}}</td>
+                <td>{{e.ServiceAppointed}}</td>
+            </tr>
+        {% endfor %}
+    {% elif request.session.username != '' and request.session.type == 'D'%}
+
+    </table>
     {% elif request.session.username != '' and request.session.type == 'D'%}
 
     </table>
@@ -31,20 +53,6 @@
    <br>
     <br>
 
-    Record
-    <table border="1" cellspacing="2">
-        <tr>
-             <th>Service Id</th>
-            <th>Service Offered</th>
-            <th>Service Price</th>
-        </tr>
 
-        {% for e in services %}
-            <tr>
-                <td>{{e.ServiceId}}</td>
-                <td>{{e.ServiceOffered}}</td>
-                <td>{{e.ServicePrice}}</td>
-            </tr>
-        {% endfor %}
  </body>
 </html>
