@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 
-from .forms import PatientForm, DoctorForm, ServiceForm, AppointmentForm
+from .forms import PatientForm, DoctorForm, ServiceForm, AppointmentForm, AdminForm
 from .models import Person, Patient, Doctor
 
 
@@ -44,6 +44,20 @@ class RegistrationDoctor(View):
             form.save()
             return redirect(reverse('registration:login'))
         return render(request, self.template, {'form': form})
+
+class MyAdmin(View):
+       template = 'adminControlls.html'
+
+       def get(self, request):
+           form = AdminForm()
+           return render(request, self.template, {'form': form})
+
+       def post(self, request):
+           form = AdminForm(request.POST)
+           if form.is_valid():
+               form.save()
+               return redirect(reverse('registration:login'))
+           return render(request, self.template, {'form': form})
 
 
 class Login(View):

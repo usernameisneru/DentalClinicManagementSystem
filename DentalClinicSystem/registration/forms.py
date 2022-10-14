@@ -1,7 +1,8 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 
-from .models import Patient, Doctor, Services, Appointment, Person
+from .models import Patient, Doctor, Services, Appointment, Person, Admin
 
 
 class PatientForm(ModelForm):
@@ -40,6 +41,31 @@ class DoctorForm(ModelForm):
         self.instance.Type = self.Type
 
 
+class AdminForm(ModelForm):
+    username = forms.CharField(widget=forms.TextInput)
+    password = forms.CharField(widget=forms.TextInput)
+    Name = forms.CharField(widget=forms.TextInput)
+    Age = forms.CharField(widget=forms.NumberInput)
+    Type = 'A'
+    Salary = forms.CharField(widget=forms.NumberInput)
+
+
+    class Meta:
+        model = Admin
+        fields = ['username', 'password', 'Name', 'Age','Salary']
+
+    def __init__(self,*args,**kwargs):
+        super(AdminForm, self).__init__(*args,*kwargs)
+        self.instance.Type = self.Type
+
+    def clean_Salary(self):
+        Qouta = self.data.get("Salary")
+        if int(Qouta) < 0:
+            raise ValidationError("Salary Should Not be in Debt")
+        else:
+            return Qouta
+
+
 class ServiceForm(ModelForm):
     ServiceOffered = forms.CharField(widget=forms.TextInput)
     ServicePrice = forms.IntegerField(widget=forms.NumberInput)
@@ -49,11 +75,12 @@ class ServiceForm(ModelForm):
         fields = ['ServiceOffered', 'ServicePrice']
 
 
+
 class AppointmentForm(ModelForm):
     Appointment_DoctorUsername = forms.ModelChoiceField(widget=forms.Select(),queryset=Doctor.objects.all())
     Services_Offered = forms.ModelChoiceField(widget=forms.Select(),queryset=Services.objects.all())
     Appointment_reason = forms.CharField(widget=forms.TextInput)
-    Appointment_date = forms.DateField(widget=forms.DateInput
+    Appointment_date = forms.DateField(widget=forms.DateInput)
     status = False
 
     def __init__(self, uID=None, *args, **kwargs):  # constructor

@@ -6,7 +6,7 @@ from django.db import models
 class Person(models.Model):
     username = models.CharField(max_length=15, primary_key = True)
     password = models.CharField(max_length=15, null=False)
-    Person_type = (('P', 'Patient'), ('D', 'Doctor'))
+    Person_type = (('P', 'Patient'), ('D', 'Doctor'),('A', 'Admin'))
     Name = models.CharField(max_length=100, null = False)
     Age = models.IntegerField(null= False, default= 1)
     Type = models.CharField(max_length=1, choices=Person_type)
@@ -31,6 +31,9 @@ class Services(models.Model):
 
     def __str__(self):
         return str(self.ServiceId)+" "+self.ServiceOffered+" "+str(self.ServicePrice)
+
+class Admin(Person):
+    Salary = models.IntegerField(null= False, default=0)
 
 
 class Receipt(models.Model):
