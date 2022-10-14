@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table border="1" cellspacing="2">
+        <tr>
+            <th>Appointment ID</th>
+            <th>Appointment Reason</th>
+            <th>Appointment Date</th>
+        </tr>
+        {% for e in allEvents %}
+        <tr>
+            <td>{{e.0}}</td>
+            <td>{{e.1}}</td>
+            <td>{{e.2}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href = "{% url 'registration:create_appointment' %}">Create Appointment</a>
+    <br>
+    <a href = "{% url 'registration:index' %}">Return</a>
+
+</body>
+</html>

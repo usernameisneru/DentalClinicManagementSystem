@@ -83,7 +83,8 @@ class AppointmentForm(ModelForm):
     Appointment_date = forms.DateField(widget=forms.DateInput)
     status = False
 
-    def __init__(self, uID=None, *args, **kwargs):  # constructor
+    def __init__(self, *args, **kwargs):  # constructor
+        super(AppointmentForm,self).__init__(*args, **kwargs)
         self.instance.status = self.status
 
     class Meta:

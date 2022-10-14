@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
+from django.db import connection
 
 from .forms import PatientForm, DoctorForm, ServiceForm, AppointmentForm, AdminForm
 from .models import Person, Patient, Doctor
@@ -94,6 +95,16 @@ class RegistrationService(View):
             form.save()
             return redirect(reverse('registration:index'))
         return render(request, self.template, {'form': form})
+
+class RegistrationViewAppointment(View):
+    template = "AppointmentList.html"
+
+    def get(self, request):
+        cursorAttenEvent = connection.cursor()
+        cursorAttenEvent.callproc('dbdentalclinicsystem.test',[request.session['username']])
+        allEvents = cursorAttenEvent.fetchall()
+        cursorAttenEvent.close()
+        return render(request, self.template, {'allEvents':allEvents})
 
 
 class RegistrationAppointment(View):
