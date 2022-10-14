@@ -52,3 +52,4 @@ class Appointment(models.Model):
     Appointment_PatientUsername = models.ForeignKey(Patient, on_delete=models.CASCADE)
     Appointment_reason = models.CharField(max_length= 100, null = False)
     Appointment_date = models.DateTimeField(null= False)
+    Appointment_status =  models.BooleanField(default=False)
