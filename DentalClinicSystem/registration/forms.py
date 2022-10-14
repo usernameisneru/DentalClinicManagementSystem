@@ -53,7 +53,7 @@ class AppointmentForm(ModelForm):
     Appointment_DoctorUsername = forms.ModelChoiceField(widget=forms.Select(),queryset=Doctor.objects.all())
     Services_Offered = forms.ModelChoiceField(widget=forms.Select(),queryset=Services.objects.all())
     Appointment_reason = forms.CharField(widget=forms.TextInput)
-    Appointment_date = forms.DateField(widget=forms.DateInput
+    Appointment_date = forms.DateField(widget=forms.DateInput)
     status = False
 
     def __init__(self, uID=None, *args, **kwargs):  # constructor
