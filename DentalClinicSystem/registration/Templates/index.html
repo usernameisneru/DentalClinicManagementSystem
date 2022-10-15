@@ -38,18 +38,18 @@
     {% elif request.session.username != '' and request.session.type == 'D'%}
 
     </table>
-    {% elif request.session.username != '' and request.session.type == 'D'%}
 
     </table>
 
     <p>Doctor Dashboard</p>
       <br>
-     <a href = "{% url 'registration:create_service' %}">Add Service</a>
-      <br>
     <a href = "{% url 'registration:edit_profile' %}">Edit Profile</a>
       <br>
     <a href = "{% url 'registration:login' %}">Log Out</a>
+     {% elif request.session.username != '' and request.session.type == 'A'%}
+    <a href = "{% url 'registration:create_service' %}">Add Service</a>
     {% endif %}
+
    <br>
     <br>
 
