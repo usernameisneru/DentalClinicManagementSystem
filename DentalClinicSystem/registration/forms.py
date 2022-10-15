@@ -48,8 +48,7 @@ class AdminForm(ModelForm):
     Age = forms.CharField(widget=forms.NumberInput)
     Type = 'A'
     Salary = forms.CharField(widget=forms.NumberInput)
-
-
+    
     class Meta:
         model = Admin
         fields = ['username', 'password', 'Name', 'Age','Salary']
@@ -58,21 +57,16 @@ class AdminForm(ModelForm):
         super(AdminForm, self).__init__(*args,*kwargs)
         self.instance.Type = self.Type
 
-    def clean_Salary(self):
-        Qouta = self.data.get("Salary")
-        if int(Qouta) < 0:
-            raise ValidationError("Salary Should Not be in Debt")
-        else:
-            return Qouta
 
 
 class ServiceForm(ModelForm):
+    DoctorFK = forms.ModelChoiceField(widget=forms.Select(), queryset=Doctor.objects.all())
     ServiceOffered = forms.CharField(widget=forms.TextInput)
     ServicePrice = forms.IntegerField(widget=forms.NumberInput)
 
     class Meta:
         model = Services
-        fields = ['ServiceOffered', 'ServicePrice']
+        fields = ['DoctorFK','ServiceOffered', 'ServicePrice']
 
 
 

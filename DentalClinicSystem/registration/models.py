@@ -23,17 +23,20 @@ class Patient(Person):
     Address = models.CharField(max_length=50, null= False)
     ContactNum = models.CharField(max_length= 20, null = False)
 
+class Admin(Person):
+    ClinicName = models.CharField(max_length=10,null= False, default=0)
 
 class Services(models.Model):
     ServiceId = models.AutoField(primary_key = True)
     ServiceOffered = models.CharField(max_length=50,null = False)
     ServicePrice = models.IntegerField(default = 1,null= False)
+    DoctorFK = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    AdminFK = models.ForeignKey(Admin, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.ServiceId)+" "+self.ServiceOffered+" "+str(self.ServicePrice)
 
-class Admin(Person):
-    Salary = models.IntegerField(null= False, default=0)
+
 
 
 class Receipt(models.Model):
