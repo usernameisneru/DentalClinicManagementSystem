@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 # Create your models here.
@@ -14,7 +16,11 @@ class Person(models.Model):
 
 class Doctor(Person):
     Years_of_Experience = models.IntegerField(null= False, default= 1)
-
+    D_type = (('O', 'Orthodontist'), ('P', 'Prosthodontist'), ('E', 'Endodontist'))
+    maxPatient = models.IntegerField(default=0)
+    Type_of_Doctor = models.CharField(max_length=1, choices=D_type)
+    TimeIn = models.TimeField(null = False, default= datetime.datetime.now())
+    TimeOut = models.TimeField(null = False, default= datetime.datetime.now())
     def __str__(self):
         return self.username+" "+str(self.Years_of_Experience)
 
