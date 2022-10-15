@@ -48,7 +48,7 @@ class AdminForm(ModelForm):
     Age = forms.CharField(widget=forms.NumberInput)
     Type = 'A'
     Salary = forms.CharField(widget=forms.NumberInput)
-    
+
     class Meta:
         model = Admin
         fields = ['username', 'password', 'Name', 'Age','Salary']
