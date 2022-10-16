@@ -19,6 +19,13 @@ class HomeView(View):
         cursorSchedule.close()
         return render(request, self.template, {'allSchedule': allSchedule})
 
+    def get(self, request):
+        cursorDoctor = connection.cursor()
+        cursorDoctor.callproc('dbdentalclinicsystem.appointmentdoctor', [request.session['username']])
+        allDoctor = cursorDoctor.fetchall()
+        cursorDoctor.close()
+        return render(request, self.template, {'allDoctor': allDoctor})
+
 class RegistrationPatient(View):
     template = 'createPatient.html'
 

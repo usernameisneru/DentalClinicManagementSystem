@@ -46,15 +46,32 @@
     <a href = "{% url 'registration:edit_profile' %}">Edit Profile</a>
       <br>
     <a href = "{% url 'registration:login' %}">Log Out</a>
+     <br>
+    <br>
+    <b>Doctor's Appointment</b>
+ <table border="1" cellspacing="2">
+        <tr>
+            <th>Patient Username</th>
+            <th>Appointment ID</th>
+            <th>Appointment Reason</th>
+            <th>Appointment Date</th>
+        </tr>
+
+     {% for e in allDoctor %}
+        <tr>
+            <td>{{e.0}}</td>
+            <td>{{e.1}}</td>
+            <td>{{e.2}}</td>
+            <td>{{e.3}}</td>
+        </tr>
+     {% endfor %}
+
      {% elif request.session.username != '' and request.session.type == 'A'%}
     <br>
     <a href = "{% url 'registration:create_service' %}">Add Service</a>
     <br>
        <a href = "{% url 'registration:login' %}">LogOut</a>
     {% endif %}
-
-   <br>
-    <br>
 
 
  </body>
