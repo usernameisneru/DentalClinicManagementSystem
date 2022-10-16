@@ -78,11 +78,11 @@ class AdminForm(ModelForm):
     Name = forms.CharField(widget=forms.TextInput)
     Age = forms.CharField(widget=forms.NumberInput)
     Type = 'A'
-    CompanyName = forms.CharField(widget=forms.TextInput)
+    Clinic = forms.CharField(widget=forms.TextInput)
 
     class Meta:
         model = Admin
-        fields = ['username', 'password', 'Name', 'Age','CompanyName']
+        fields = ['username', 'password', 'Name', 'Age','Clinic']
 
     def __init__(self,*args,**kwargs):
         super(AdminForm, self).__init__(*args,*kwargs)
