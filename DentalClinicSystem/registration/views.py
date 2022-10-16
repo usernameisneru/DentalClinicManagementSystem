@@ -103,11 +103,11 @@ class RegistrationViewAppointment(View):
     template = "AppointmentList.html"
 
     def get(self, request):
-        cursorAttenEvent = connection.cursor()
-        cursorAttenEvent.callproc('dbdentalclinicsystem.test',[request.session['username']])
-        allEvents = cursorAttenEvent.fetchall()
-        cursorAttenEvent.close()
-        return render(request, self.template, {'allEvents':allEvents})
+        cursorAppointment = connection.cursor()
+        cursorAppointment.callproc('dbdentalclinicsystem.test',[request.session['username']])
+        allAppointment = cursorAppointment.fetchall()
+        cursorAppointment.close()
+        return render(request, self.template, {'allAppointment':allAppointment})
 
 
 class RegistrationAppointment(View):
