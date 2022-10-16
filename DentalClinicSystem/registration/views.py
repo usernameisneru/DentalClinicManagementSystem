@@ -12,9 +12,12 @@ from .models import Person, Patient, Doctor, Admin
 class HomeView(View):
     template = 'index.html'
 
-    def get(self,request):
-        return render(request,self.template)
-
+    def get(self, request):
+        cursorSchedule = connection.cursor()
+        cursorSchedule.callproc('dbdentalclinicsystem.appointmentschedule', [request.session['username']])
+        allSchedule = cursorSchedule.fetchall()
+        cursorSchedule.close()
+        return render(request, self.template, {'allSchedule': allSchedule})
 
 class RegistrationPatient(View):
     template = 'createPatient.html'
@@ -104,10 +107,10 @@ class RegistrationViewAppointment(View):
 
     def get(self, request):
         cursorAppointment = connection.cursor()
-        cursorAppointment.callproc('dbdentalclinicsystem.test',[request.session['username']])
-        allAppointment = cursorAppointment.fetchall()
+        cursorAppointment.callproc('dbdentalclinicsystem.appointmentlist',[request.session['username']])
+        allAppointments = cursorAppointment.fetchall()
         cursorAppointment.close()
-        return render(request, self.template, {'allAppointment':allAppointment})
+        return render(request, self.template, {'allAppointments':allAppointments})
 
 
 class RegistrationAppointment(View):

@@ -5,13 +5,20 @@
     <title>Title</title>
 </head>
 <body>
+
+
+    <a href = "{% url 'registration:create_appointment' %}">Create Appointment</a>
+    <br>
+    <a href = "{% url 'registration:index' %}">Return</a>
+    <br>
+    <br>
     <table border="1" cellspacing="2">
         <tr>
             <th>Appointment ID</th>
             <th>Appointment Reason</th>
             <th>Appointment Date</th>
         </tr>
-        {% for e in allAppointment %}
+        {% for e in allAppointments %}
         <tr>
             <td>{{e.0}}</td>
             <td>{{e.1}}</td>
@@ -19,10 +26,5 @@
         </tr>
         {% endfor %}
     </table>
-
-    <a href = "{% url 'registration:create_appointment' %}">Create Appointment</a>
-    <br>
-    <a href = "{% url 'registration:index' %}">Return</a>
-
 </body>
 </html>

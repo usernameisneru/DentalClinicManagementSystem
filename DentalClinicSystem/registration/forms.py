@@ -7,7 +7,7 @@ from .models import Patient, Doctor, Services, Appointment, Person, Admin
 
 class PatientForm(ModelForm):
     username = forms.CharField(widget=forms.TextInput)
-    password = forms.CharField(widget=forms.TextInput)
+    password = forms.CharField(widget=forms.PasswordInput)
     Name = forms.CharField(widget=forms.TextInput)
     Age = forms.CharField(widget=forms.NumberInput)
     Type = 'P'
@@ -49,7 +49,7 @@ class DoctorForm(ModelForm):
         fields = ['username', 'password', 'Name', 'Age', 'Years_of_Experience','Type_of_Doctor','maxPatient','TimeIn','TimeOut']
 
     def __init__(self,*args,**kwargs):
-        super(DoctorForm, self).__init__(*args,*kwargs)
+        super(DoctorForm, self).__init__(*args,**kwargs)
         self.instance.Type = self.Type
 
 
@@ -103,7 +103,7 @@ class ServiceForm(ModelForm):
 
 class AppointmentForm(ModelForm):
     Appointment_DoctorUsername = forms.ModelChoiceField(widget=forms.Select(),queryset=Doctor.objects.all())
-    Services_Offered = forms.ModelChoiceField(widget=forms.Select(),queryset=None)
+    Services_Offered = forms.ModelChoiceField(widget=forms.Select(),queryset=Services.objects.all())
     Appointment_reason = forms.CharField(widget=forms.TextInput)
     Appointment_date = forms.DateField(widget=forms.DateInput)
     status = False

@@ -5,8 +5,8 @@
     <title></title>
 </head>
 <body>
-    Username{{request.session.username}}
-    Type{{request.session.Type}}
+    Username {{request.session.username}}
+    Type {{request.session.Type}}
     {% if request.session.username != '' and request.session.type == 'P'%}
     <p>Patient Dashboard</p>
         <a href = "{% url 'registration:view_appointment' %}">Add Appointment</a>
@@ -27,12 +27,12 @@
             <th>Service Appointed</th>
         </tr>
 
-        {% for e in appointment %}
+        {% for e in allSchedule %}
             <tr>
-                <td>{{e.DoctorUsername}}</td>
-                <td>{{e.ReasonOfAppointment}}</td>
-                <td>{{e.AppointmentDate}}</td>
-                <td>{{e.ServiceAppointed}}</td>
+                <td>{{e.0}}</td>
+                <td>{{e.1}}</td>
+                <td>{{e.2}}</td>
+                <td>{{e.3}}</td>
             </tr>
         {% endfor %}
     {% elif request.session.username != '' and request.session.type == 'D'%}
@@ -47,7 +47,10 @@
       <br>
     <a href = "{% url 'registration:login' %}">Log Out</a>
      {% elif request.session.username != '' and request.session.type == 'A'%}
+    <br>
     <a href = "{% url 'registration:create_service' %}">Add Service</a>
+    <br>
+       <a href = "{% url 'registration:login' %}">LogOut</a>
     {% endif %}
 
    <br>
