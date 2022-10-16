@@ -13,18 +13,20 @@ class HomeView(View):
     template = 'index.html'
 
     def get(self, request):
-        cursorSchedule = connection.cursor()
-        cursorSchedule.callproc('dbdentalclinicsystem.appointmentschedule', [request.session['username']])
-        allSchedule = cursorSchedule.fetchall()
-        cursorSchedule.close()
-        return render(request, self.template, {'allSchedule': allSchedule})
-
-    def get(self, request):
-        cursorDoctor = connection.cursor()
-        cursorDoctor.callproc('dbdentalclinicsystem.appointmentdoctor', [request.session['username']])
-        allDoctor = cursorDoctor.fetchall()
-        cursorDoctor.close()
-        return render(request, self.template, {'allDoctor': allDoctor})
+        if(request.session['type']=='D'):
+            cursorDoctor = connection.cursor()
+            cursorDoctor.callproc('dbdentalclinicsystem.appointmentdoctor', [request.session['username']])
+            allDoctor = cursorDoctor.fetchall()
+            cursorDoctor.close()
+            return render(request, self.template, {'allDoctor': allDoctor})
+        elif(request.session['type']=='P'):
+            cursorSchedule = connection.cursor()
+            cursorSchedule.callproc('dbdentalclinicsystem.appointmentschedule', [request.session['username']])
+            allSchedule = cursorSchedule.fetchall()
+            cursorSchedule.close()
+            return render(request, self.template, {'allSchedule': allSchedule})
+        else:
+            return render(request, self.template)
 
 class RegistrationPatient(View):
     template = 'createPatient.html'
