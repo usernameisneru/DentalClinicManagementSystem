@@ -8,7 +8,7 @@
     Username {{request.session.username}}
     Type {{request.session.Type}}
     {% if request.session.username != '' and request.session.type == 'P'%}
-    <p>Patient Dashboard</p>
+    <h2><p>Patient Dashboard</p> </h2>
         <a href = "{% url 'registration:view_appointment' %}">Add Appointment</a>
     <br>
         <a href = "{% url 'registration:create_patient' %}">Add Payment</a>
@@ -21,10 +21,12 @@
 <b>History</b>
  <table border="1" cellspacing="2">
         <tr>
+            <th>AppointmentID</th>
             <th>Doctor Username</th>
-            <th>Reason of Appointment</th>
             <th>Appointment Date</th>
             <th>Service Appointed</th>
+            <th>Service Price</th>
+
         </tr>
 
         {% for e in allSchedule %}
@@ -33,6 +35,8 @@
                 <td>{{e.1}}</td>
                 <td>{{e.2}}</td>
                 <td>{{e.3}}</td>
+                <td>{{e.4}}</td>
+                <td><a href="{% url 'registration:delete_appointment' e.0 %}">delete</a></td>
             </tr>
         {% endfor %}
     {% elif request.session.username != '' and request.session.type == 'D'%}

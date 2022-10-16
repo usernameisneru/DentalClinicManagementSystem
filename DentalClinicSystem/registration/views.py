@@ -4,7 +4,7 @@ from django.views import View
 from django.db import connection
 
 from .forms import PatientForm, DoctorForm, ServiceForm, AppointmentForm, AdminForm
-from .models import Person, Patient, Doctor, Admin
+from .models import Person, Patient, Doctor, Admin, Appointment
 
 
 # Create your views here.
@@ -167,3 +167,10 @@ class EditProfile(View):
             return redirect(reverse('registration:index'))
         return render(request, self.template, {'form': form})
 
+class DeleteAppointment(View):
+    template = 'index.html'
+
+    def get(self,request, AppointmentID):
+            appointment = Appointment.objects.get(pk=int(AppointmentID))
+            appointment.delete()
+            return render(request,self.template)
