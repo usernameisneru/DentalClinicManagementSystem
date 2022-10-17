@@ -67,3 +67,4 @@ class Appointment(models.Model):
     Appointment_reason = models.CharField(max_length= 100, null = False)
     Appointment_date = models.DateField(null= False)
     Appointment_status =  models.BooleanField(default=False)
+    Appointment_time = models.TimeField(null = False, default= datetime.datetime.now())

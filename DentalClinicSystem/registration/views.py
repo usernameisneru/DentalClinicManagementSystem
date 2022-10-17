@@ -190,7 +190,7 @@ class DeleteAppointment(View):
     def get(self,request, AppointmentID):
             appointment = Appointment.objects.get(pk=int(AppointmentID))
             appointment.delete()
-            return render(request,self.template)
+            return redirect(reverse('registration:index'))
 
 class DeleteService(View):
     template = 'index.html'

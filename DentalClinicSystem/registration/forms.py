@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
@@ -102,13 +104,14 @@ class AppointmentForm(ModelForm):
     Appointment_DoctorUsername = forms.ModelChoiceField(widget=forms.Select(),queryset=Doctor.objects.all())
     Services_Offered = forms.ModelChoiceField(widget=forms.Select(),queryset=Services.objects.all())
     Appointment_reason = forms.CharField(widget=forms.TextInput)
-    Appointment_date = forms.DateField(widget=forms.DateInput)
+    Appointment_date = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control','type':'date'}), label='Appointment_Date')
     status = False
 
 
     class Meta:
         model = Appointment
         fields = ['Appointment_DoctorUsername','Services_Offered','Appointment_reason', 'Appointment_date']
+
 
     def __init__(self, did,*args, **kwargs):  # constructor
         super(AppointmentForm, self).__init__(*args, **kwargs)
@@ -118,5 +121,14 @@ class AppointmentForm(ModelForm):
         self.fields['Services_Offered'].queryset = service
         self.instance.status = self.status
 
+    def clean_Appointment_date(self):
+        Appointment_date = self.cleaned_data['Appointment_date']
+        print(Appointment_date > date.today())
+        if Appointment_date <= date.today():
+            raise ValidationError("The date entered should not be before today!")
+        elif Appointment_date > (date.today()+timedelta(30)):
+            raise ValidationError("The date entered should not be more than a month from now!")
+        else:
+            return Appointment_date
 class pickDoctor(forms.Form):
     doc = forms.ModelChoiceField(widget=forms.Select(), queryset=Doctor.objects.all())
