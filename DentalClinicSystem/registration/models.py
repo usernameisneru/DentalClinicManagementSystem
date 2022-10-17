@@ -22,7 +22,7 @@ class Doctor(Person):
     TimeIn = models.TimeField(null = False, default= datetime.datetime.now())
     TimeOut = models.TimeField(null = False, default= datetime.datetime.now())
     def __str__(self):
-        return self.username+" "+str(self.Years_of_Experience)
+        return self.username
 
 
 class Patient(Person):
@@ -67,4 +67,3 @@ class Appointment(models.Model):
     Appointment_reason = models.CharField(max_length= 100, null = False)
     Appointment_date = models.DateField(null= False)
     Appointment_status =  models.BooleanField(default=False)
-    Appointment_time = models.TimeField(null = False, default= datetime.datetime.now())

@@ -8,9 +8,30 @@
     Username {{request.session.username}}
     Type {{request.session.Type}}
     {% if request.session.username != '' and request.session.type == 'P'%}
+
+
+
+
         <h2><p>Patient Dashboard</p> </h2>
+        <p>Note: Please Choose a Doctor before Adding Appointment</p>
+    <table border="1" cellspacing="2">
+            <tr>
+                <th>Doctor Username</th>
+                <th>Doctor Name</th>
+                <th>Doctor Years of Experience</th>
+                <th>Doctor Schedule</th>
+            </tr>
+
+            {% for e in allTime %}
+                <tr>
+                    <td>{{e.0}}</td>
+                    <td>{{e.1}}</td>
+                    <td>{{e.2}}</td>
+                    <td>{{e.3}}</td>
+                </tr>
+            {% endfor %}
+        </table>
          <form action ="" method = "post">
-             <p>Note: Please Choose a Doctor before Adding Appointment</p>
              {% csrf_token %}
               {{form.as_p}}
             <input type="submit" value="Create Appointment">
@@ -45,7 +66,6 @@
 
     {% elif request.session.username != '' and request.session.type == 'D'%}
         <p>Doctor Dashboard</p>
-            <a href = "{% url 'registration:create_appointment' %}">Add Appointment</a>
         <br>
             <a href = "{% url 'registration:edit_profile' %}">Edit Profile</a>
         <br>

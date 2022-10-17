@@ -21,11 +21,15 @@ class HomeView(View):
             return render(request, self.template, {'allDoctor': allDoctor})
         elif(request.session['type']=='P'):
             form2 = pickDoctor()
+            cursorTime = connection.cursor()
+            cursorTime.callproc('dbdentalclinicsystem.appointmenttime')
+            allTime = cursorTime.fetchall()
+            cursorTime.close()
             cursorSchedule = connection.cursor()
             cursorSchedule.callproc('dbdentalclinicsystem.appointmentschedule', [request.session['username']])
             allSchedule = cursorSchedule.fetchall()
             cursorSchedule.close()
-            return render(request, self.template, {'allSchedule': allSchedule, 'form':form2})
+            return render(request, self.template,{'allTime': allTime,'allSchedule': allSchedule, 'form':form2})
         elif (request.session['type'] == 'A'):
             cursorService = connection.cursor()
             cursorService.callproc('dbdentalclinicsystem.ServiceEdit')
@@ -145,18 +149,24 @@ class RegistrationAppointment(View):
         return render(request, self.template,{'form':form})
 
     def post(self,request):
-
+        errorMsg =""
         form = AppointmentForm(request.session['doc'],request.POST)
+        numberofPatients = Appointment.objects.filter(Appointment_DoctorUsername_id=request.session['doc']).count()
+        print(numberofPatients)
+        doctor = Doctor.objects.get(pk = request.session['doc'])
+
         if form.is_valid():
-            print("is valid")
-            patient = Patient.objects.get(pk=request.session['username'])
-            appointment = form.save(commit=False)
-            appointment.Appointment_PatientUsername = patient
-            appointment.save()
-            return redirect(reverse('registration:index'))
-        else:
-            print("not valid")
-        return render(request, self.template, {'form': form})
+            if numberofPatients < doctor.maxPatient:
+                print("is valid")
+                patient = Patient.objects.get(pk=request.session['username'])
+                appointment = form.save(commit=False)
+                appointment.Appointment_PatientUsername = patient
+                appointment.save()
+                return redirect(reverse('registration:index'))
+            else:
+                print("is full")
+                errorMsg = "Doctor's Appointment is Full"
+        return render(request, self.template, {'form': form,'errorMsg':errorMsg})
 
 
 class EditProfile(View):

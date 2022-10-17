@@ -6,7 +6,9 @@
 </head>
 <body>
       <p>Appointment Form</p>
+
       <form action ="" method = "post">
+          {{errorMsg}}
           {% csrf_token %}
           {{form.as_p}}
           <input type="submit" value="Schedule">
