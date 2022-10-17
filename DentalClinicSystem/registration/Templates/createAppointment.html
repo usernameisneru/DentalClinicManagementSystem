@@ -6,11 +6,11 @@
 </head>
 <body>
       <p>Appointment Form</p>
-        <form action ="" method = "post">
-      {% csrf_token %}
-      {{form.as_p}}
-            <input type="submit" value="Schedule">
-        </form>
+      <form action ="" method = "post">
+          {% csrf_token %}
+          {{form.as_p}}
+          <input type="submit" value="Schedule">
+      </form>
 
 </body>
 </html>

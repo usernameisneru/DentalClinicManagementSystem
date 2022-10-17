@@ -102,7 +102,7 @@ class ServiceForm(ModelForm):
 
 
 class AppointmentForm(ModelForm):
-    Appointment_DoctorUsername = forms.ModelChoiceField(widget=forms.Select(),queryset=Doctor.objects.all())
+    Appointment_PatientUsername = forms.ModelChoiceField(widget=forms.Select(),queryset=Patient.objects.all())
     Services_Offered = forms.ModelChoiceField(widget=forms.Select(),queryset=Services.objects.all())
     Appointment_reason = forms.CharField(widget=forms.TextInput)
     Appointment_date = forms.DateField(widget=forms.DateInput)
@@ -116,4 +116,4 @@ class AppointmentForm(ModelForm):
 
     class Meta:
         model = Appointment
-        fields = ['Appointment_DoctorUsername','Services_Offered','Appointment_reason', 'Appointment_date']
+        fields = ['Appointment_PatientUsername','Services_Offered','Appointment_reason', 'Appointment_date']

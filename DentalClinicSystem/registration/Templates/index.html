@@ -8,76 +8,69 @@
     Username {{request.session.username}}
     Type {{request.session.Type}}
     {% if request.session.username != '' and request.session.type == 'P'%}
-    <h2><p>Patient Dashboard</p> </h2>
-        <a href = "{% url 'registration:view_appointment' %}">Add Appointment</a>
+        <h2><p>Patient Dashboard</p> </h2>
+            <a href = "{% url 'registration:create_patient' %}">Add Payment</a>
+        <br>
+            <a href = "{% url 'registration:edit_profile' %}">Edit Profile</a>
+        <br>
+            <a href = "{% url 'registration:login' %}">LogOut</a>
+        <br>
+        <br>
+        <b>History</b>
+        <table border="1" cellspacing="2">
+            <tr>
+                <th>AppointmentID</th>
+                <th>Doctor Username</th>
+                <th>Appointment Date</th>
+                <th>Service Appointed</th>
+                <th>Service Price</th>
+            </tr>
+
+            {% for e in allSchedule %}
+                <tr>
+                    <td>{{e.0}}</td>
+                    <td>{{e.1}}</td>
+                    <td>{{e.2}}</td>
+                    <td>{{e.3}}</td>
+                    <td>{{e.4}}</td>
+                    <td><a href="{% url 'registration:delete_appointment' e.0 %}">delete</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    {% elif request.session.username != '' and request.session.type == 'D'%}
+        <p>Doctor Dashboard</p>
+            <a href = "{% url 'registration:create_appointment' %}">Add Appointment</a>
+        <br>
+            <a href = "{% url 'registration:edit_profile' %}">Edit Profile</a>
+        <br>
+            <a href = "{% url 'registration:login' %}">Log Out</a>
+        <br>
+        <br>
+        <b>Doctor's Appointment</b>
+        <table border="1" cellspacing="2">
+            <tr>
+                <th>Patient Username</th>
+                <th>Appointment ID</th>
+                <th>Appointment Reason</th>
+                <th>Appointment Date</th>
+            </tr>
+            {% for e in allDoctor %}
+                <tr>
+                    <td>{{e.0}}</td>
+                    <td>{{e.1}}</td>
+                    <td>{{e.2}}</td>
+                    <td>{{e.3}}</td>
+                    <td><a href="{% url 'registration:delete_appointment' e.0 %}">delete</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    {% elif request.session.username != '' and request.session.type == 'A'%}
     <br>
-        <a href = "{% url 'registration:create_patient' %}">Add Payment</a>
-    <br>
-        <a href = "{% url 'registration:edit_profile' %}">Edit Profile</a>
+        <a href = "{% url 'registration:create_service' %}">Add Service</a>
     <br>
         <a href = "{% url 'registration:login' %}">LogOut</a>
-    <br>
-    <br>
-<b>History</b>
- <table border="1" cellspacing="2">
-        <tr>
-            <th>AppointmentID</th>
-            <th>Doctor Username</th>
-            <th>Appointment Date</th>
-            <th>Service Appointed</th>
-            <th>Service Price</th>
-
-        </tr>
-
-        {% for e in allSchedule %}
-            <tr>
-                <td>{{e.0}}</td>
-                <td>{{e.1}}</td>
-                <td>{{e.2}}</td>
-                <td>{{e.3}}</td>
-                <td>{{e.4}}</td>
-                <td><a href="{% url 'registration:delete_appointment' e.0 %}">delete</a></td>
-            </tr>
-        {% endfor %}
-    {% elif request.session.username != '' and request.session.type == 'D'%}
-
-    </table>
-
-    </table>
-
-    <p>Doctor Dashboard</p>
-      <br>
-    <a href = "{% url 'registration:edit_profile' %}">Edit Profile</a>
-      <br>
-    <a href = "{% url 'registration:login' %}">Log Out</a>
-     <br>
-    <br>
-    <b>Doctor's Appointment</b>
- <table border="1" cellspacing="2">
-        <tr>
-            <th>Patient Username</th>
-            <th>Appointment ID</th>
-            <th>Appointment Reason</th>
-            <th>Appointment Date</th>
-        </tr>
-
-     {% for e in allDoctor %}
-        <tr>
-            <td>{{e.0}}</td>
-            <td>{{e.1}}</td>
-            <td>{{e.2}}</td>
-            <td>{{e.3}}</td>
-            <td><a href="{% url 'registration:delete_appointment' e.0 %}">delete</a></td>
-        </tr>
-     {% endfor %}
-
-     {% elif request.session.username != '' and request.session.type == 'A'%}
-    <br>
-    <a href = "{% url 'registration:create_service' %}">Add Service</a>
-    <br>
-       <a href = "{% url 'registration:login' %}">LogOut</a>
     {% endif %}
-
-
- </body>
+</body>
 </html>

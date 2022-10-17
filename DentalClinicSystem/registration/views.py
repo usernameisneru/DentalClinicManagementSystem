@@ -132,9 +132,9 @@ class RegistrationAppointment(View):
     def post(self,request):
         form = AppointmentForm(request.POST)
         if form.is_valid():
-            patient = Patient.objects.get(pk = request.session['username'])
+            doctor = Doctor.objects.get(pk = request.session['username'])
             appointment = form.save(commit=False)
-            appointment.Appointment_PatientUsername = patient
+            appointment.Appointment_DoctorUsername = doctor
             appointment.save()
 
             return redirect(reverse('registration:index'))

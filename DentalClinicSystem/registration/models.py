@@ -28,6 +28,8 @@ class Doctor(Person):
 class Patient(Person):
     Address = models.CharField(max_length=50, null= False)
     ContactNum = models.CharField(max_length= 20, null = False)
+    def __str__(self):
+        return self.username
 
 class Admin(Person):
     ClinicName = models.CharField(max_length=10,null= False, default=0)
