@@ -4,7 +4,7 @@ from django.views import View
 from django.db import connection
 
 from .forms import PatientForm, DoctorForm, ServiceForm, AppointmentForm, AdminForm
-from .models import Person, Patient, Doctor, Admin, Appointment
+from .models import Person, Patient, Doctor, Admin, Appointment, Services
 
 
 # Create your views here.
@@ -130,9 +130,10 @@ class RegistrationAppointment(View):
         return render(request, self.template,{'form':form})
 
     def post(self,request):
+
         form = AppointmentForm(request.POST)
         if form.is_valid():
-            doctor = Doctor.objects.get(pk = request.session['username'])
+            doctor= Doctor.objects.get(pk = request.session['username'])
             appointment = form.save(commit=False)
             appointment.Appointment_DoctorUsername = doctor
             appointment.save()
@@ -141,6 +142,16 @@ class RegistrationAppointment(View):
 
         return render(request, self.template, {'form': form})
 
+class UpdateService(View):
+    template = 'index.html'
+
+    def get(self, request):
+        doct = request.session('DoctorFK')
+        doctorOP = Services.object.get(pk=doct)
+        cursor = connection.cursor()
+        cursor.callproc('dbdentalclinicsystem.ServiceEdit',[doct])
+        doctAssign = cursor.fetchall()
+        return render(request,self.template,{'DocServe': doctAssign})
 
 class EditProfile(View):
     template = "editProfile.html"

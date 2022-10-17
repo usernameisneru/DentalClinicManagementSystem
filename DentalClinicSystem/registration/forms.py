@@ -1,7 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
-
 from .models import Patient, Doctor, Services, Appointment, Person, Admin
 
 
@@ -88,8 +87,6 @@ class AdminForm(ModelForm):
         super(AdminForm, self).__init__(*args,*kwargs)
         self.instance.Type = self.Type
 
-
-
 class ServiceForm(ModelForm):
     DoctorFK = forms.ModelChoiceField(widget=forms.Select(), queryset=Doctor.objects.all())
     ServiceOffered = forms.CharField(widget=forms.TextInput)
@@ -98,8 +95,6 @@ class ServiceForm(ModelForm):
     class Meta:
         model = Services
         fields = ['DoctorFK','ServiceOffered', 'ServicePrice']
-
-
 
 class AppointmentForm(ModelForm):
     Appointment_PatientUsername = forms.ModelChoiceField(widget=forms.Select(),queryset=Patient.objects.all())
