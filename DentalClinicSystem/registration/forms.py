@@ -24,8 +24,8 @@ class PatientForm(ModelForm):
 
     def clean_Age(self):
         age = self.data.get('Age')
-        if int(age) < 18:
-            raise ValidationError("Age should not be less than 18")
+        if int(age) < 0:
+            raise ValidationError("Age should not be less than 0")
         else:
             return age
 
@@ -97,18 +97,22 @@ class ServiceForm(ModelForm):
         fields = ['DoctorFK','ServiceOffered', 'ServicePrice']
 
 class AppointmentForm(ModelForm):
-    Appointment_PatientUsername = forms.ModelChoiceField(widget=forms.Select(),queryset=Patient.objects.all())
+    Appointment_DoctorUsername = forms.ModelChoiceField(widget=forms.Select(),queryset=Doctor.objects.all())
     Services_Offered = forms.ModelChoiceField(widget=forms.Select(),queryset=Services.objects.all())
     Appointment_reason = forms.CharField(widget=forms.TextInput)
     Appointment_date = forms.DateField(widget=forms.DateInput)
     status = False
 
-    def __init__(self, *args, **kwargs):  # constructor
-        super(AppointmentForm,self).__init__(*args, **kwargs)
-        self.instance.status = self.status
-        '''dc = Doctor.objects.only('username')
-        service = Services.objects.filter()'''
 
     class Meta:
         model = Appointment
-        fields = ['Appointment_PatientUsername','Services_Offered','Appointment_reason', 'Appointment_date']
+        fields = ['Appointment_DoctorUsername','Services_Offered','Appointment_reason', 'Appointment_date']
+
+    def __init__(self, dID=None, *args, **kwargs):  # constructor
+        super(AppointmentForm, self).__init__(*args, **kwargs)
+        self.instance.status = self.status
+        self.fields['Appointment_DoctorUsername'] = forms.ModelChoiceField(widget=forms.Select(),queryset=Doctor.objects.all(), initial=dID)
+        service = Services.objects.filter(DoctorFK_id=dID)
+        self.fields['Services_Offered'].queryset = service
+class pickDoctor(forms.Form):
+    doc = forms.ModelChoiceField(widget=forms.Select(), queryset=Doctor.objects.all())

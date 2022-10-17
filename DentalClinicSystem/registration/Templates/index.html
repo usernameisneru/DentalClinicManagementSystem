@@ -9,7 +9,12 @@
     Type {{request.session.Type}}
     {% if request.session.username != '' and request.session.type == 'P'%}
         <h2><p>Patient Dashboard</p> </h2>
-            <a href = "{% url 'registration:create_appointment' %}">Add Payment</a>
+         <form action ="" method = "post">
+             <p>Note: Please Choose a Doctor before Adding Appointment</p>
+             {% csrf_token %}
+              {{form.as_p}}
+            <input type="submit" value="Create Appointment">
+         </form>
         <br>
             <a href = "{% url 'registration:edit_profile' %}">Edit Profile</a>
         <br>

@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.views import View
 from django.db import connection
 
-from .forms import PatientForm, DoctorForm, ServiceForm, AppointmentForm, AdminForm
+from .forms import PatientForm, DoctorForm, ServiceForm, AppointmentForm, AdminForm,pickDoctor
 from .models import Person, Patient, Doctor, Admin, Appointment, Services
 
 
@@ -20,11 +20,12 @@ class HomeView(View):
             cursorDoctor.close()
             return render(request, self.template, {'allDoctor': allDoctor})
         elif(request.session['type']=='P'):
+            form2 = pickDoctor()
             cursorSchedule = connection.cursor()
             cursorSchedule.callproc('dbdentalclinicsystem.appointmentschedule', [request.session['username']])
             allSchedule = cursorSchedule.fetchall()
             cursorSchedule.close()
-            return render(request, self.template, {'allSchedule': allSchedule})
+            return render(request, self.template, {'allSchedule': allSchedule, 'form':form2})
         elif (request.session['type'] == 'A'):
             cursorService = connection.cursor()
             cursorService.callproc('dbdentalclinicsystem.ServiceEdit')
@@ -33,6 +34,14 @@ class HomeView(View):
             return render(request, self.template, {'doctAssign': doctAssign})
         else:
             return render(request, self.template)
+
+    def post(self, request):
+        if request.session['type'] == 'P':
+            form = pickDoctor(request.POST)
+            if form.is_valid():
+                request.session['doc'] = request.POST['doc']
+                return redirect(reverse('registration:create_appointment'))
+        return render(request, self.template, {'form': form})
 
 class RegistrationPatient(View):
     template = 'createPatient.html'
@@ -132,20 +141,22 @@ class RegistrationAppointment(View):
     template = "createAppointment.html"
 
     def get(self,request):
-        form = AppointmentForm()
+        form = AppointmentForm(request.session['doc'])
         return render(request, self.template,{'form':form})
 
     def post(self,request):
 
+
         form = AppointmentForm(request.POST)
         if form.is_valid():
-            doctor= Doctor.objects.get(pk = request.session['username'])
+            print("is valid")
+            patient = Patient.objects.get(pk=request.session['username'])
             appointment = form.save(commit=False)
-            appointment.Appointment_DoctorUsername = doctor
+            appointment.Appointment_PatientUsername = patient
             appointment.save()
-
             return redirect(reverse('registration:index'))
-
+        else:
+            print("not valid")
         return render(request, self.template, {'form': form})
 
 
