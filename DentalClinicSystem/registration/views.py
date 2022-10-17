@@ -146,8 +146,7 @@ class RegistrationAppointment(View):
 
     def post(self,request):
 
-
-        form = AppointmentForm(request.POST)
+        form = AppointmentForm(request.session['doc'],request.POST)
         if form.is_valid():
             print("is valid")
             patient = Patient.objects.get(pk=request.session['username'])

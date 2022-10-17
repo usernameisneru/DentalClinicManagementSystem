@@ -1,6 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
+from django.http import request
+
 from .models import Patient, Doctor, Services, Appointment, Person, Admin
 
 
@@ -108,11 +110,13 @@ class AppointmentForm(ModelForm):
         model = Appointment
         fields = ['Appointment_DoctorUsername','Services_Offered','Appointment_reason', 'Appointment_date']
 
-    def __init__(self, dID=None, *args, **kwargs):  # constructor
+    def __init__(self, did,*args, **kwargs):  # constructor
         super(AppointmentForm, self).__init__(*args, **kwargs)
-        self.instance.status = self.status
-        self.fields['Appointment_DoctorUsername'] = forms.ModelChoiceField(widget=forms.Select(),queryset=Doctor.objects.all(), initial=dID)
-        service = Services.objects.filter(DoctorFK_id=dID)
+        doctor = Doctor.objects.filter(person_ptr_id = did)
+        service = Services.objects.filter(DoctorFK_id=did)
+        self.fields['Appointment_DoctorUsername'].queryset = doctor
         self.fields['Services_Offered'].queryset = service
+        self.instance.status = self.status
+
 class pickDoctor(forms.Form):
     doc = forms.ModelChoiceField(widget=forms.Select(), queryset=Doctor.objects.all())
