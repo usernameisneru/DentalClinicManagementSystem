@@ -10,7 +10,7 @@ from .models import Patient, Doctor, Services, Appointment, Person, Admin
 
 class PatientForm(ModelForm):
     username = forms.CharField(widget=forms.TextInput,label='Input Username')
-    password = forms.CharField(widget=forms.PasswordInput,label='Input Username')
+    password = forms.CharField(widget=forms.PasswordInput,label='Input Password')
     Name = forms.CharField(widget=forms.TextInput,label='Input Name')
     Age = forms.CharField(widget=forms.NumberInput,label='Input Age')
     Type = 'P'
