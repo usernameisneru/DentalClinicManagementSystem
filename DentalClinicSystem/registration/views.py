@@ -25,6 +25,12 @@ class HomeView(View):
             allSchedule = cursorSchedule.fetchall()
             cursorSchedule.close()
             return render(request, self.template, {'allSchedule': allSchedule})
+        elif (request.session['type'] == 'A'):
+            cursorService = connection.cursor()
+            cursorService.callproc('dbdentalclinicsystem.ServiceEdit')
+            doctAssign = cursorService.fetchall()
+            cursorService.close()
+            return render(request, self.template, {'doctAssign': doctAssign})
         else:
             return render(request, self.template)
 
@@ -59,7 +65,7 @@ class RegistrationDoctor(View):
         return render(request, self.template, {'form': form})
 
 class MyAdmin(View):
-       template = 'adminControlls.html'
+       template = 'adminControls.html'
 
        def get(self, request):
            form = AdminForm()
@@ -142,16 +148,6 @@ class RegistrationAppointment(View):
 
         return render(request, self.template, {'form': form})
 
-class UpdateService(View):
-    template = 'index.html'
-
-    def get(self, request):
-        doct = request.session('DoctorFK')
-        doctorOP = Services.object.get(pk=doct)
-        cursor = connection.cursor()
-        cursor.callproc('dbdentalclinicsystem.ServiceEdit',[doct])
-        doctAssign = cursor.fetchall()
-        return render(request,self.template,{'DocServe': doctAssign})
 
 class EditProfile(View):
     template = "editProfile.html"

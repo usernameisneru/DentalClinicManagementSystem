@@ -71,6 +71,7 @@
         <a href = "{% url 'registration:create_service' %}">Add Service</a>
     <br>
         <a href = "{% url 'registration:login' %}">LogOut</a>
+    <br>
      <b>Doctor Hired</b>
        <table border="1" cellspacing="2">
         <tr>
@@ -78,7 +79,7 @@
             <th>Service Offered</th>
             <th>Service Price</th>
         </tr>
-      {% for e in DocServ %}
+      {% for e in doctAssign %}
         <tr>
             <td>{{e.0}}</td>
             <td>{{e.1}}</td>
