@@ -75,7 +75,7 @@ class DoctorForm(ModelForm):
 
 class AdminForm(ModelForm):
     username = forms.CharField(widget=forms.TextInput)
-    password = forms.CharField(widget=forms.TextInput)
+    password = forms.CharField(widget=forms.PasswordInput)
     Name = forms.CharField(widget=forms.TextInput)
     Age = forms.CharField(widget=forms.NumberInput)
     Type = 'A'
@@ -89,6 +89,12 @@ class AdminForm(ModelForm):
         super(AdminForm, self).__init__(*args,*kwargs)
         self.instance.Type = self.Type
 
+    def clean_Age(self):
+        age = self.data.get('Age')
+        if int(age) < 18:
+            raise ValidationError("Age should not be less than 18")
+        else:
+            return age
 class ServiceForm(ModelForm):
     DoctorFK = forms.ModelChoiceField(widget=forms.Select(), queryset=Doctor.objects.all())
     ServiceOffered = forms.CharField(widget=forms.TextInput)
@@ -97,6 +103,7 @@ class ServiceForm(ModelForm):
     class Meta:
         model = Services
         fields = ['DoctorFK','ServiceOffered', 'ServicePrice']
+
 
 class AppointmentForm(ModelForm):
     Appointment_DoctorUsername = forms.ModelChoiceField(widget=forms.Select(),queryset=Doctor.objects.all())
