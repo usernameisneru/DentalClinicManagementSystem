@@ -181,3 +181,10 @@ class DeleteAppointment(View):
             appointment = Appointment.objects.get(pk=int(AppointmentID))
             appointment.delete()
             return render(request,self.template)
+
+class DeleteService(View):
+    template = 'index.html'
+    def get(self,request, ServiceId):
+            Serve = Services.objects.get(pk=int(ServiceId))
+            Serve.delete()
+            return redirect(reverse('registration:index'))

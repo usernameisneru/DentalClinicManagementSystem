@@ -9,7 +9,7 @@
     Type {{request.session.Type}}
     {% if request.session.username != '' and request.session.type == 'P'%}
         <h2><p>Patient Dashboard</p> </h2>
-            <a href = "{% url 'registration:create_patient' %}">Add Payment</a>
+            <a href = "{% url 'registration:create_appointment' %}">Add Payment</a>
         <br>
             <a href = "{% url 'registration:edit_profile' %}">Edit Profile</a>
         <br>
@@ -50,8 +50,8 @@
         <b>Doctor's Appointment</b>
         <table border="1" cellspacing="2">
             <tr>
-                <th>Patient Username</th>
                 <th>Appointment ID</th>
+                <th>Patient ID</th>
                 <th>Appointment Reason</th>
                 <th>Appointment Date</th>
             </tr>
@@ -75,6 +75,8 @@
      <b>Doctor Hired</b>
        <table border="1" cellspacing="2">
         <tr>
+
+            <th>Service ID</th>
             <th>Doctor Name</th>
             <th>Service Offered</th>
             <th>Service Price</th>
@@ -84,6 +86,8 @@
             <td>{{e.0}}</td>
             <td>{{e.1}}</td>
             <td>{{e.2}}</td>
+            <td>{{e.3}}</td>
+            <td><a href="{% url 'registration:delete_service' e.0 %}">delete</a></td>
         </tr>
       {% endfor %}
    </table>

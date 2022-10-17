@@ -14,5 +14,6 @@ urlpatterns = [
     path('adminControls',views.MyAdmin.as_view(),name = 'create_admin'),
     path('viewAppointment', views.RegistrationViewAppointment.as_view(), name='view_appointment'),
     path('deleteAppointment/<int:AppointmentID>', views.DeleteAppointment.as_view(), name='delete_appointment'),
+    path('deleteService/<int:ServiceId>', views.DeleteService.as_view(), name='delete_service')
     ]
 
